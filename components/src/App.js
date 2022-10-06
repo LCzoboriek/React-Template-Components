@@ -22,6 +22,16 @@ const App = () => {
   const handleDrinkChange = (event) => {
     setDrink(event.target.value);
   };
+  const [count, setCount] = React.useState(0);
+  const [isOpen, setOpen] = React.useState(false);
+
+  const handleClick2 = () => {
+    setOpen(!isOpen);
+  };
+  const handleClick = () => {
+    setCount(count + 1);
+    console.log(count);
+  };
   return (
     <div>
       <Checkbox label="Value 1" value={checkedOne} onChange={handleChangeOne} />
@@ -56,7 +66,24 @@ const App = () => {
       <p>We eat {food}!</p>
       <br />
       <p>We drink {drink}!</p>
+
+      <Button onClick={handleClick}>Increase amount</Button>
+      <br />
+      {count}
+      <br />
+      <Button onClick={handleClick2}>Submit</Button>
+
+      {isOpen && <div>You Submitted Your Order!</div>}
+      {/* The above statement is a true or false checker, if isOpen is true, itll display this div, if not it wont display */}
     </div>
+  );
+};
+
+const Button = ({ onClick, children }) => {
+  return (
+    <button type="button" onClick={onClick}>
+      {children}
+    </button>
   );
 };
 const Dropdown = ({ label, value, options, onChange }) => {
