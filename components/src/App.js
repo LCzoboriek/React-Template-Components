@@ -71,7 +71,7 @@ const App = () => {
       <br />
       {count}
       <br />
-      <Button onClick={handleClick2}>Submit</Button>
+      <Button onClick={handleClick2}>Submit2</Button>
 
       {isOpen && <div>You Submitted Your Order!</div>}
       {/* The above statement is a true or false checker, if isOpen is true, itll display this div, if not it wont display */}
