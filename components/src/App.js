@@ -1,7 +1,10 @@
 import "./App.css";
 import * as React from "react";
+import { useState } from "react";
 
 const App = () => {
+  const onSubmit = (username) => console.log(username);
+
   const [checkedOne, setCheckedOne] = React.useState(false);
   const [checkedTwo, setCheckedTwo] = React.useState(false);
 
@@ -34,6 +37,8 @@ const App = () => {
   };
   return (
     <div>
+      <Counter></Counter>
+      <UsernameForm onSubmit={onSubmit} />
       <Checkbox label="Value 1" value={checkedOne} onChange={handleChangeOne} />
       <br />
       <br />
@@ -75,17 +80,14 @@ const App = () => {
 
       {isOpen && <div>You Submitted Your Order!</div>}
       {/* The above statement is a true or false checker, if isOpen is true, itll display this div, if not it wont display */}
+      <br />
+      <label>
+        <input type="radio" /> Cat
+      </label>
     </div>
   );
 };
 
-const Button = ({ onClick, children }) => {
-  return (
-    <button type="button" onClick={onClick}>
-      {children}
-    </button>
-  );
-};
 const Dropdown = ({ label, value, options, onChange }) => {
   return (
     <label>
@@ -108,6 +110,66 @@ const Checkbox = ({ label, value, onChange }) => {
   );
 };
 
+const UsernameForm = ({ onSubmit }) => {
+  const [username, setUsername] = useState("");
+  return (
+    <Form
+      onSubmit={(event) => {
+        onSubmit(username);
+        event.preventDefault();
+      }}
+    >
+      <InputField value={username} onChange={setUsername}>
+        Your name:
+      </InputField>
+
+      <Button type="submit">Send</Button>
+      {/* The children properties being sent are the type of submit and the send text */}
+    </Form>
+  );
+};
+
+const Form = ({ onSubmit, children }) => (
+  <form onSubmit={onSubmit}>{children}</form>
+);
+
+const Button = ({ onClick, type = "button", children }) => (
+  <button type={type} onClick={onClick}>
+    {children}
+  </button>
+);
+
+const InputField = ({ value, onChange, children }) => (
+  <label>
+    {children}
+    <input
+      type="text"
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+    />
+  </label>
+);
+
+function Counter() {
+  const hasClickedButton = React.useRef(false);
+  const [count, setCount] = React.useState(0);
+
+  function onClick() {
+    const newCount = count + 1;
+    setCount(newCount);
+    hasClickedButton.current = true;
+  }
+
+  console.log("Has clicked button" + hasClickedButton.current);
+  return (
+    <div>
+      <p>{count}</p>
+      <button type="button" onClick={onClick}>
+        Increase
+      </button>
+    </div>
+  );
+}
 export default App;
 
 // These components add a checkbox component that is controlled by useState react hooks, with its initial state being updated by the
