@@ -1,33 +1,53 @@
 import "./App.css";
 import * as React from "react";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+const initialList = [
+  {
+    id: "a",
+    dishName: "Chicken",
+    price: 15,
+  },
+  {
+    id: "b",
+    dishName: "Vegetables",
+    price: 14,
+  },
+  {
+    id: "c",
+    dishName: "Prawns",
+    price: 17,
+  },
+];
 
+let initialBasket = [{}];
 const App = () => {
+  function handleAdd(event) {
+    const name = event.target.itemName;
+    const value = event.target.itemValue;
+    console.log(name);
+    initialBasket.push({ name, value, id: uuidv4() });
+    console.log(initialBasket);
+  }
   const onSubmit = (username) => console.log(username);
-
   const [checkedOne, setCheckedOne] = React.useState(false);
   const [checkedTwo, setCheckedTwo] = React.useState(false);
-
   const handleChangeOne = () => {
     setCheckedOne(!checkedOne);
   };
-
   const handleChangeTwo = () => {
     setCheckedTwo(!checkedTwo);
   };
   const [food, setFood] = React.useState("fruit");
   const [drink, setDrink] = React.useState("water");
-
   const handleFoodChange = (event) => {
     setFood(event.target.value);
   };
-
   const handleDrinkChange = (event) => {
     setDrink(event.target.value);
   };
   const [count, setCount] = React.useState(0);
   const [isOpen, setOpen] = React.useState(false);
-
   const handleClick2 = () => {
     setOpen(!isOpen);
   };
@@ -35,6 +55,8 @@ const App = () => {
     setCount(count + 1);
     console.log(count);
   };
+
+  //Return statements below for divs and rendered content
   return (
     <div>
       <Counter></Counter>
@@ -84,10 +106,35 @@ const App = () => {
       <label>
         <input type="radio" /> Cat
       </label>
+      <ul>
+        {initialList.map((item) => (
+          <li key={item.id}>
+            {item.dishName}
+            <button
+              type="button"
+              itemName={item.dishName}
+              itemValue={item.price}
+              onClick={handleAdd}
+            >
+              Add
+            </button>
+          </li>
+        ))}
+      </ul>
+      <p>Basket below</p>
+      <Basket />
     </div>
   );
 };
-
+const Basket = () => {
+  return (
+    <ul>
+      {initialBasket.map((item) => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
+};
 const Dropdown = ({ label, value, options, onChange }) => {
   return (
     <label>
