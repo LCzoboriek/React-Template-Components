@@ -5,11 +5,11 @@ import { v4 as uuidv4 } from "uuid";
 function App() {
   const [name, setName] = React.useState("");
   const [list, setList] = React.useState([
-    { id: "1", name: "Apple", count: 5 },
-    { id: "2", name: "Banana", count: 3 },
-    { id: "3", name: "Peach", count: 10 },
+    { id: "1", name: "Apple", count: 5, price: 6 },
+    { id: "2", name: "Banana", count: 3, price: 7 },
+    { id: "3", name: "Peach", count: 10, price: 8 },
   ]);
-  const [basket, setBasket] = React.useState("");
+  const [basket, setBasket] = React.useState([]);
 
   const [sort, setSort] = React.useState("name");
 
@@ -34,12 +34,13 @@ function App() {
     setList(newList);
   }
   function handleAddToBasket(event) {
+    const matchedItem = list.filter((item) => item.id === event.target.value);
     const newItem = {
-      id: uuidv4(),
-      name: event.target.value,
+      ...matchedItem[0],
     };
     const newBasketItem = basket.concat(newItem);
     setBasket(newBasketItem);
+    console.log(JSON.stringify(basket));
   }
   //Computed property
   const sortedList = sortBy(list, sort);
@@ -69,10 +70,21 @@ function App() {
       <ul>
         {sortedList.map((item) => (
           <li key={item.id}>
-            <span>{item.name}</span>:<span>{item.count}</span>
-            <button type="button" value={item.name} onClick={handleAddToBasket}>
+            <span>{item.name}</span>:<span>{item.count}</span>:
+            <span>{item.price}</span>
+            <button type="button" value={item.id} onClick={handleAddToBasket}>
               Add to Basket
             </button>
+          </li>
+        ))}
+      </ul>
+      <ul>
+        <p>Basket Below: </p>
+        {basket.map((item) => (
+          <li key={item.id}>
+            <span>{item.name} </span>
+
+            <span>Cost: {item.price}</span>
           </li>
         ))}
       </ul>
