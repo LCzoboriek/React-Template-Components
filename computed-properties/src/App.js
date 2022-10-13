@@ -34,12 +34,13 @@ function App() {
     setList(newList);
   }
   function handleAddToBasket(event) {
-    const matchedItem = list.filter((item) => item.id === event.target.value);
     const checkBasket = basket.find((item) => item.id === event.target.value);
     console.log(JSON.stringify(checkBasket));
     if (checkBasket !== undefined) {
-      console.log("Im the located item" + JSON.stringify(locatedItem));
+      checkBasket.quantity++;
+      setBasket(basket);
     } else {
+      const matchedItem = list.filter((item) => item.id === event.target.value);
       const newItem = {
         ...matchedItem[0],
       };
@@ -47,6 +48,7 @@ function App() {
       const newBasketItem = basket.concat(newItem);
       setBasket(newBasketItem);
     }
+    console.log("im the basket log ");
     console.log(JSON.stringify(basket));
   }
   //Computed property
@@ -90,7 +92,8 @@ function App() {
         {basket.map((item) => (
           <li key={item.id}>
             <span>{item.name} </span>
-
+            <br />
+            <span>Quantity: {item.quantity} </span>
             <span>Cost: {item.price}</span>
           </li>
         ))}
