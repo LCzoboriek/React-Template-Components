@@ -5,9 +5,9 @@ import { v4 as uuidv4 } from "uuid";
 function App() {
   const [name, setName] = React.useState("");
   const [list, setList] = React.useState([
-    { id: "1", name: "Apple", count: 5, price: 6 },
-    { id: "2", name: "Banana", count: 3, price: 7 },
-    { id: "3", name: "Peach", count: 10, price: 8 },
+    { id: uuidv4(), name: "Apple", price: 6, quantity: 1 },
+    { id: uuidv4(), name: "Banana", price: 7, quantity: 1 },
+    { id: uuidv4(), name: "Peach", price: 8, quantity: 1 },
   ]);
   const [basket, setBasket] = React.useState([]);
 
@@ -35,11 +35,18 @@ function App() {
   }
   function handleAddToBasket(event) {
     const matchedItem = list.filter((item) => item.id === event.target.value);
-    const newItem = {
-      ...matchedItem[0],
-    };
-    const newBasketItem = basket.concat(newItem);
-    setBasket(newBasketItem);
+    const checkBasket = basket.find((item) => item.id === event.target.value);
+    console.log(JSON.stringify(checkBasket));
+    if (checkBasket !== undefined) {
+      console.log("Im the located item" + JSON.stringify(locatedItem));
+    } else {
+      const newItem = {
+        ...matchedItem[0],
+      };
+
+      const newBasketItem = basket.concat(newItem);
+      setBasket(newBasketItem);
+    }
     console.log(JSON.stringify(basket));
   }
   //Computed property
