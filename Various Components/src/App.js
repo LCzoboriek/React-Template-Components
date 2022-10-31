@@ -2,6 +2,8 @@ import "./App.css";
 import * as React from "react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+const idOne = uuidv4();
+const idTwo = uuidv4();
 const initialList = [
   {
     id: "a",
@@ -19,6 +21,50 @@ const initialList = [
     price: 17,
   },
 ];
+let users = {
+  [idOne]: {
+    id: "1",
+    firstName: "Robin",
+    lastName: "Wieruch",
+    isDeveloper: true,
+  },
+  [idTwo]: {
+    id: "2",
+    firstName: "Dave",
+    lastName: "Davidds",
+    isDeveloper: false,
+  },
+};
+
+const getUsers = () =>
+  new Promise((resolve, reject) => {
+    if (!users) {
+      return setTimeout(() => reject(new Error("No users found")), 250);
+    }
+    setTimeout(() => resolve(Object.values(users)), 250);
+  });
+
+// usage (1)
+getUsers()
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+// usage (2)
+const doGetUsers = async () => {
+  try {
+    const result = await getUsers();
+    console.log(result);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+doGetUsers();
+const result = getUsers();
+console.log(result);
 
 let initialBasket = [{}];
 const App = () => {

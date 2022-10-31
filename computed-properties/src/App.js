@@ -98,6 +98,9 @@ function App() {
           </li>
         ))}
       </ul>
+      <div>
+        <p>Total Cost: </p>
+      </div>
     </div>
   );
 }
