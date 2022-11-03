@@ -1,5 +1,31 @@
 import React from 'react';
-import styles from './style.module.scss'
+import styled from 'styled-components';
+const Button = styled.button`
+  cursor: pointer;
+  border: 1px solid #1a202c;
+  padding: 8px;
+  min-width: 64px;
+  
+  background: transparent;
+  transition: all 0.1s ease-in;
+  
+  &:hover {
+    background: #1a202c;
+    color: #ffffff
+  }
+`;
+
+const UnorderedList = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+`;
+
+const OrderedList = styled.li`
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+`;
 
 function App() {
   const [fruits, setFruits] = React.useState([
@@ -43,22 +69,22 @@ function App() {
 
 function Basket({ items, onClick }) {
   return (
-    <ul className={styles['unordered-list']}>
+    <UnorderedList>
       {/* This is simply mapping through the array, and outputting the content to the screen
       It also changes what is displayed on the screen using a ternary operator, if isFavorite is True
       it'll display Unlike on the button otherwise it'll show Like */}
       {items.map((item) => (
-        <li key={item.id} className={styles['list-item']}>
+        <OrderedList key={item.id}>
           {/* You must always have an item key in lists on react, to keept track of stateful items correctly */}
           {item.name}
-          <button type="button" className={styles.button} onClick={() => onClick(item)}>
+          <Button type="button" onClick={() => onClick(item)}>
             {item.isFavorite ? 'Unlike' : 'Like'}
             {/* This button is a stateful button, onClick itll run the onClick passing up the prop item
             and then this changes the attribute of item.isFavorite from Like or Unlike */}
-          </button>
-        </li>
+          </Button>
+        </OrderedList>
       ))}
-    </ul>
+    </UnorderedList>
   );
 }
 
